@@ -15,6 +15,8 @@ import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -182,6 +184,27 @@ public class ExpandableListView extends RelativeLayout {
 		mSummaryView.setVisibility(mExpanded ? GONE : VISIBLE);
 		mDetailView.setVisibility(mExpanded ? VISIBLE : GONE);
 		mToggleView.setImageResource(mExpanded ? R.drawable.expander_close : R.drawable.expander_open);
+		RotateAnimation rotate = new RotateAnimation(0, mExpanded ? 180 : -180, Animation.RELATIVE_TO_SELF, 0.5f,
+			Animation.RELATIVE_TO_SELF, 0.5f);
+		rotate.setDuration(2000);
+		rotate.setFillBefore(false);
+		rotate.setFillAfter(true);
+		rotate.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// mToggleView.setImageResource(mExpanded ? R.drawable.expander_close : R.drawable.expander_open);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// mToggleView.setImageDrawable(null);
+			}
+		});
+		mToggleView.startAnimation(rotate);
 		requestLayout();
 	}
 
